@@ -13,23 +13,23 @@ class Stack:
     def push(self, data):
         self.stack.append(data)
 
-        if self.max_stack == []:
-            self.max_stack.append(data)
-        else:
-            data_max = self.max_stack[-1]
-            if data > data_max:
-                self.max_stack.append(data)
-            else:
-                self.max_stack.append(data_max)
+        # if self.max_stack == []:
+        #     self.max_stack.append(data)
+        # else:
+        #     data_max = self.max_stack[-1]
+        #     if data > data_max:
+        #         self.max_stack.append(data)
+        #     else:
+        #         self.max_stack.append(data_max)
 
     def pop(self):
 
         if self.is_empty():
             return None
         data = self.stack[-1]
-        del self.max_stack[-1]
+        # del self.max_stack[-1]
         del self.stack[-1]
-        return f'Valor {data} eliminado del Stack'
+        return data
 
     def peek(self):
         return self.stack[-1]
