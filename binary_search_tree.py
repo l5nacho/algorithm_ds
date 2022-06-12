@@ -125,14 +125,42 @@ class BinarySearchTree:
             self.remove_node(node.right_node, data)
         else:
             print(f"Nodo encontrado: {node}")
+            # Eliminando nodo hoja (sin hijos)
             if node.left_node is None and node.right_node is None:
-                print(f"Eliminando nodo hoja {node}")
+                print(f"Eliminando nodo hoja: {node}")
                 if node.parent is not None and node.parent.left_node == node:
                     node.parent.left_node = None
                 if node.parent is not None and node.parent.right_node == node:
                     node.parent.right_node = None
+                if parent is None:
+                    self.root = None
+                del node
+            # Eliminando nodo con un solo hijo
+            elif node.left_node is None and node.right_node is not None:
+                print(f"Eliminando nodo con un solo hijo a la derecha: {node}")
+                parent = node.parent
+                if parent is not None and parent.right_node == node:
+                    parent.right_node = node.right_node
+                if parent is not None and parent.left_node == node:
+                    parent.left_node = node.right_node
+                if parent is None:
+                    self.root = None
+
+                node.right_node.parent = parent
                 del node
 
+            elif node.right_node is None and node.left_node is not None:
+                print(f"Eliminando nodo con un solo hijo a la izquierda: {node}")
+                parent = node.parent
+                if parent is not None and parent.left_node == node:
+                    parent.left_node = node.left_node
+                if parent is not None and parent.right_node == node:
+                    parent.right_node = node.left_node
+                if parent is None:
+                    self.root = None
+
+                node.left_node.parent = parent
+                del node
 
 if __name__ == '__main__':
     bst = BinarySearchTree()
@@ -145,11 +173,12 @@ if __name__ == '__main__':
     bst.insert(12)
     bst.insert(-5)
     bst.insert(45)
+    bst.insert(11)
 
     print(f'El valor minimo es {bst.get_min_value()}')
     print(f'El valor maximo es {bst.get_max_value()}')
     print(bst.traverse())
     print(bst.iterate())
-    bst.remove(45)
+    bst.remove(2)
     print(bst.traverse())
 
