@@ -113,12 +113,14 @@ class BinarySearchTree:
 
     def remove(self, data):
 
-        if not self.root:
-            return
-        else:
+        if self.root:
             self.remove_node(self.root, data)
 
     def remove_node(self, node, data):
+
+        if node is None:
+            return None
+
         if data < node.data:
             self.remove_node(node.left_node, data)
         elif data > node.data:
@@ -132,7 +134,7 @@ class BinarySearchTree:
                     node.parent.left_node = None
                 if node.parent is not None and node.parent.right_node == node:
                     node.parent.right_node = None
-                if parent is None:
+                if node.parent is None:
                     self.root = None
                 del node
             # Eliminando nodo con un solo hijo
@@ -144,7 +146,7 @@ class BinarySearchTree:
                 if parent is not None and parent.left_node == node:
                     parent.left_node = node.right_node
                 if parent is None:
-                    self.root = None
+                    self.root = node.right_node
 
                 node.right_node.parent = parent
                 del node
@@ -157,10 +159,27 @@ class BinarySearchTree:
                 if parent is not None and parent.right_node == node:
                     parent.right_node = node.left_node
                 if parent is None:
-                    self.root = None
+                    self.root = node.left_node
 
                 node.left_node.parent = parent
                 del node
+
+            # Eliminando nodo con dos hijos
+            else:
+                print(f"Eliminando nodo con dos hijos: {node}")
+                predecessor = self.get_predecessor(node.left_node)
+
+                temp = predecessor.data
+                predecessor.data = node.data
+                node.data = temp
+
+                self.remove_node(predecessor, data)
+
+    def get_predecessor(self, node):
+        if node.right_node:
+            return self.get_predecessor(node.right_node)
+
+        return node
 
 if __name__ == '__main__':
     bst = BinarySearchTree()
@@ -179,6 +198,6 @@ if __name__ == '__main__':
     print(f'El valor maximo es {bst.get_max_value()}')
     print(bst.traverse())
     print(bst.iterate())
-    bst.remove(2)
-    print(bst.traverse())
+    bst.remove(5)
+    print(bst.iterate())
 
