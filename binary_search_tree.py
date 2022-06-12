@@ -8,6 +8,9 @@ class Node:
         self.right_node = None
         self.parent = parent
 
+    def __repr__(self):
+        return str(self.data)
+
 class BinarySearchTree:
     def __init__(self):
         """Solo podemos acceder al nodo root que se inicializa como None
@@ -92,28 +95,43 @@ class BinarySearchTree:
 
 
     def iterate(self):
+        queue = [self.root]
+        result =[]
 
-        stack = Stack()
-        stack.push(self.root.data)
-        nodo = self.root
-        lista = []
+        while queue:
+            l = queue.pop(0)
+            result.append(l)
 
-        while stack is not None:
-            if nodo.left_node:
-                nodo = nodo.left_node
-                stack.push(nodo.data)
-                print(stack)
-            lista.append(stack.pop())
+            if l.left_node is not None:
+                queue.append(l.left_node)
+            if l.right_node is not None:
+                queue.append(l.right_node)
 
-            if nodo.right_node:
-                nodo = nodo.right_node
-                stack.push(nodo.data)
-                print(stack)
-
-        print(lista)
+        return result
 
 
 
+    def remove(self, data):
+
+        if not self.root:
+            return
+        else:
+            self.remove_node(self.root, data)
+
+    def remove_node(self, node, data):
+        if data < node.data:
+            self.remove_node(node.left_node, data)
+        elif data > node.data:
+            self.remove_node(node.right_node, data)
+        else:
+            print(f"Nodo encontrado: {node}")
+            if node.left_node is None and node.right_node is None:
+                print(f"Eliminando nodo hoja {node}")
+                if node.parent is not None and node.parent.left_node == node:
+                    node.parent.left_node = None
+                if node.parent is not None and node.parent.right_node == node:
+                    node.parent.right_node = None
+                del node
 
 
 if __name__ == '__main__':
@@ -124,8 +142,14 @@ if __name__ == '__main__':
     bst.insert(7)
     bst.insert(2)
     bst.insert(18)
+    bst.insert(12)
+    bst.insert(-5)
+    bst.insert(45)
+
     print(f'El valor minimo es {bst.get_min_value()}')
     print(f'El valor maximo es {bst.get_max_value()}')
-    # print(bst.traverse())
+    print(bst.traverse())
     print(bst.iterate())
+    bst.remove(45)
+    print(bst.traverse())
 
