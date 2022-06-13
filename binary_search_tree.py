@@ -181,6 +181,18 @@ class BinarySearchTree:
 
         return node
 
+class CompareBST:
+
+    def compare(self, node1, node2):
+
+        if not node1 and not node2:
+            return node1 == node2
+
+        if node1.data is not node2.data:
+            return False
+
+        return self.compare(node1.left_node, node1.left_node) and self.compare(node1.right_node, node2.right_node)
+
 if __name__ == '__main__':
     bst = BinarySearchTree()
     bst.insert(10)
@@ -200,4 +212,22 @@ if __name__ == '__main__':
     print(bst.iterate())
     bst.remove(5)
     print(bst.iterate())
+
+    bst1 = BinarySearchTree()
+    bst2 = BinarySearchTree()
+
+    bst1.insert(5)
+    bst2.insert(5)
+    bst1.insert(4)
+    bst2.insert(4)
+    bst1.insert(2)
+    bst2.insert(2)
+    bst1.insert(7)
+    bst2.insert(7)
+    bst1.insert(6)
+    bst2.insert(3)
+    bst1.insert(1)
+    bst2.insert(1)
+
+    print(CompareBST().compare(bst1.root, bst2.root))
 
