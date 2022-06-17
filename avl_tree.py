@@ -62,8 +62,9 @@ class AVLTree:
             print(f'Nodo {node} encontrado con hijo {node.left_node} y {node.right_node} '
                   f'y padre {node.parent}')
             if not node.left_node and not node.right_node:
-                parent = node.parent
+                print(f"Eliminando nodo hoja: {node}")
 
+                parent = node.parent
                 if parent and parent.left_node == node:
                     parent.left_node = None
                 if parent and parent.right_node == node:
@@ -76,6 +77,7 @@ class AVLTree:
 
             # Caso 2 -> Nodo tiene un solo hijo
             elif node.left_node and not node.right_node:
+                print(f"Eliminando nodo con un solo hijo a la derecha: {node}")
                 parent = node.parent
 
                 if parent and parent.left_node == node:
@@ -89,6 +91,7 @@ class AVLTree:
                 del node
 
             elif not node.left_node and node.right_node:
+                print(f"Eliminando nodo con un solo hijo a la izquierda: {node}")
                 parent = node.parent
 
                 if parent and parent.left_node == node:
@@ -105,14 +108,16 @@ class AVLTree:
             # Reduccion matemática, cambiamos el nodo por el predecesor (mayor
             # valor de la rama de la izquierda) = mayor valor de los menores y
             # lo convertimos en nodo hoja o en nodo con un solo hijo.
-            if node.left_node and node.right_node:
+            else:
+                print(f"Eliminando nodo con dos hijos: {node}")
                 predecessor = self.get_predecessor(node.left_node)
 
                 temp = predecessor.data
                 predecessor.data = node.data
                 node.data = temp
+                print(f'{predecessor} {type(predecessor)} {data} {type(data)}')
 
-                self.remove_node(predecessor, data)
+                self.remove_node(data, predecessor)
 
     def get_predecessor(self, node):
 
@@ -171,4 +176,8 @@ if __name__ == '__main__':
     avl.traverse()
     print(avl.iterate())
     avl.remove(-5)
+    print(avl.iterate())
+    avl.remove(12)
+    print(avl.iterate())
+    avl.remove(17)
     print(avl.iterate())
