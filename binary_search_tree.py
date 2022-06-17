@@ -32,7 +32,6 @@ class BinarySearchTree:
         """Recorre el BST recursivamente y añade el nodo a la
         izquierda o la derecha según comparando el valor con el
         nodo"""
-
         if data < node.data:
             if node.left_node is None:
 
@@ -210,24 +209,24 @@ if __name__ == '__main__':
     print(f'El valor maximo es {bst.get_max_value()}')
     print(bst.traverse())
     print(bst.iterate())
-    bst.remove(5)
+    bst.remove(-5)
     print(bst.iterate())
-
-    bst1 = BinarySearchTree()
-    bst2 = BinarySearchTree()
-
-    bst1.insert(5)
-    bst2.insert(5)
-    bst1.insert(4)
-    bst2.insert(4)
-    bst1.insert(2)
-    bst2.insert(2)
-    bst1.insert(7)
-    bst2.insert(7)
-    bst1.insert(6)
-    bst2.insert(3)
-    bst1.insert(1)
-    bst2.insert(1)
-
-    print(CompareBST().compare(bst1.root, bst2.root))
+    bst.traverse()
+    # bst1 = BinarySearchTree()
+    # bst2 = BinarySearchTree()
+    #
+    # bst1.insert(5)
+    # bst2.insert(5)
+    # bst1.insert(4)
+    # bst2.insert(4)
+    # bst1.insert(2)
+    # bst2.insert(2)
+    # bst1.insert(7)
+    # bst2.insert(7)
+    # bst1.insert(6)
+    # bst2.insert(3)
+    # bst1.insert(1)
+    # bst2.insert(1)
+    #
+    # print(CompareBST().compare(bst1.root, bst2.root))
 
