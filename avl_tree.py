@@ -32,14 +32,18 @@ class AVLTree:
             if not node.left_node:
                 node.left_node = Node(data, node)
                 # Falta implementar el metodo
-                # node.height = max(self.calc_height(node.left_node), self.calc_height(node.right_node)) + 1
+                print(f'El height de {node} es {node.height}')
+                node.height = max(self.calc_height(node.left_node), self.calc_height(node.right_node)) + 1
+                print(f'El height de {node} es {node.height}')
             else:
                 self.insert_node(data, node.left_node)
 
         else:
             if not node.right_node:
                 node.right_node = Node(data, node)
-                # node.height = max(self.calc_height(node.left_node), self.calc_height(node.right_node)) + 1
+                print(f'El height de {node} es {node.height}')
+                node.height = max(self.calc_height(node.left_node), self.calc_height(node.right_node)) + 1
+                print(f'El height de {node} es {node.height}')
             else:
                 self.insert_node(data, node.right_node)
 
@@ -83,7 +87,7 @@ class AVLTree:
                 if parent and parent.left_node == node:
                     parent.left_node = node.left_node
                 if parent and parent.right_node == node:
-                    parent.right_node = node.right_node
+                    parent.right_node = node.left_node
                 if not parent:
                     self.root = None
 
@@ -95,7 +99,7 @@ class AVLTree:
                 parent = node.parent
 
                 if parent and parent.left_node == node:
-                    parent.left_node = node.left_node
+                    parent.left_node = node.right_node
                 if parent and parent.right_node == node:
                     parent.right_node = node.right_node
                 if not parent:
@@ -158,6 +162,30 @@ class AVLTree:
 
         return result
 
+    def calc_height(self, node):
+        if node is None:
+            return -1
+        else:
+            return node.height
+
+    def height(self, data):
+        if self.root:
+            self.get_height(data, self.root)
+
+    def get_height(self, data, node):
+
+        if node is None:
+            return None
+
+        if data < node.data:
+            self.get_height(data, node.left_node)
+        elif data > node.data:
+            self.get_height(data, node.right_node)
+
+        else:
+            print(f'the heigth of the node {node} is {node.height}')
+
+
 
 if __name__ == '__main__':
     avl = AVLTree()
@@ -172,12 +200,10 @@ if __name__ == '__main__':
     avl.insert(-5)
     avl.insert(45)
     avl.insert(11)
-
-    avl.traverse()
-    print(avl.iterate())
-    avl.remove(-5)
-    print(avl.iterate())
-    avl.remove(12)
-    print(avl.iterate())
-    avl.remove(17)
-    print(avl.iterate())
+    #
+    # print(avl.iterate())
+    # print(avl.height(10))
+    # print(avl.height(-5))
+    # print(avl.height(5))
+    # print(avl.height(15))
+    # print(avl.iterate())
