@@ -32,20 +32,20 @@ class AVLTree:
             if not node.left_node:
                 node.left_node = Node(data, node)
                 # Falta implementar el metodo
-                print(f'El height de {node} es {node.height}')
                 node.height = max(self.calc_height(node.left_node), self.calc_height(node.right_node)) + 1
-                print(f'El height de {node} es {node.height}')
             else:
                 self.insert_node(data, node.left_node)
 
         else:
             if not node.right_node:
                 node.right_node = Node(data, node)
-                print(f'El height de {node} es {node.height}')
                 node.height = max(self.calc_height(node.left_node), self.calc_height(node.right_node)) + 1
-                print(f'El height de {node} es {node.height}')
+
             else:
                 self.insert_node(data, node.right_node)
+
+        self.handle_violation(node)
+        print(f'El height de {node} es {node.height}')
 
     def remove(self, data):
         if self.root:
@@ -77,7 +77,7 @@ class AVLTree:
                     self.root = None
 
                 del node
-                # self.handle_violation(node)
+                self.handle_violation(parent)
 
             # Caso 2 -> Nodo tiene un solo hijo
             elif node.left_node and not node.right_node:
@@ -93,6 +93,7 @@ class AVLTree:
 
                 node.left_node.parent = parent
                 del node
+                self.handle_violation(parent)
 
             elif not node.left_node and node.right_node:
                 print(f"Eliminando nodo con un solo hijo a la izquierda: {node}")
@@ -107,6 +108,7 @@ class AVLTree:
 
                 node.right_node.parent = parent
                 del node
+                self.handle_violation(parent)
 
             # Caso 3 -> Tiene dos hijos
             # Reduccion matemática, cambiamos el nodo por el predecesor (mayor
@@ -189,6 +191,14 @@ class AVLTree:
                 self.rotate_right(node.right_node)
 
             self.rotate_left(node)
+
+    def handle_violation(self, node):
+
+        while node is not None:
+            node.height = max(self.calc_height(node.left_node),
+                              self.calc_height(node.right_node)) + 1
+            self.violation_helper(node)
+            node = node.parent
 
 
     def height(self, data):
