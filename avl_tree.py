@@ -168,6 +168,29 @@ class AVLTree:
         else:
             return node.height
 
+    def calculate_balance(self, node):
+        if node is None:
+            return 0
+
+        return self.calc_height(node.left_node) - self.calc_height(node.right_node)
+
+    def violation_helper(self, node):
+        balance = self.calculate_balance(node)
+
+        if balance > 1:
+            if self.calculate_balance(node.left_node) < 0:
+                self.rotate_left(node.left_node)
+
+            self.rotate_right(node)
+
+        if balance < -1:
+
+            if self.calculate_balance(node.right_node) > 0:
+                self.rotate_right(node.right_node)
+
+            self.rotate_left(node)
+
+
     def height(self, data):
         if self.root:
             self.get_height(data, self.root)
