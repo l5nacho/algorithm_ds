@@ -142,12 +142,12 @@ class AVLTree:
     def traverse_in_order(self, node):
 
         if node.left_node:
-            return self.traverse_in_order(node.left_node)
+            self.traverse_in_order(node.left_node)
 
         print(node.data)
 
         if node.right_node:
-            return self.traverse_in_order(node.right_node)
+            self.traverse_in_order(node.right_node)
 
     def iterate(self):
         queue = [self.root]
@@ -239,4 +239,4 @@ if __name__ == '__main__':
     # print(avl.height(-5))
     # print(avl.height(5))
     # print(avl.height(15))
-    # print(avl.iterate())
+    print(avl.traverse())
