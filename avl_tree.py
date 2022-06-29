@@ -151,7 +151,7 @@ class AVLTree:
 
     def iterate(self):
         queue = [self.root]
-        result =[]
+        result = []
 
         while queue:
             l = queue.pop(0)
@@ -200,24 +200,67 @@ class AVLTree:
             self.violation_helper(node)
             node = node.parent
 
+    def rotate_right(self, node):
+        print(f'Rotating to the right node {node}')
 
-    def height(self, data):
-        if self.root:
-            self.get_height(data, self.root)
+        temp_left_node = node.left_node
+        t = temp_left_node.right_node
 
-    def get_height(self, data, node):
+        temp_left_node.right_node = node
+        node.left_node = t
 
-        if node is None:
-            return None
+        if t is None:
+            t.parent = node
 
-        if data < node.data:
-            self.get_height(data, node.left_node)
-        elif data > node.data:
-            self.get_height(data, node.right_node)
+        temp_parent = node.parent
+        node.parent = temp_left_node
+        temp_left_node.parent = temp_parent
 
-        else:
-            print(f'the heigth of the node {node} is {node.height}')
+        if temp_left_node.parent and temp_left_node.parent.left_node == node:
+            temp_left_node.parent.left_node = temp_left_node
 
+        if temp_left_node.parent and temp_left_node.parent.right_node == node:
+            temp_left_node.parent.right_node = temp_left_node
+
+        if node == self.root:
+            self.root = temp_left_node
+
+        node.height = max(self.calc_height(node.left_node),
+                          self.calc_height(node.right_node))
+
+        temp_left_node.height = max(self.calc_height(temp_left_node.left_node),
+                                    self.calc_height(temp_left_node.right_node)) + 1
+
+    def rotate_left(self, node):
+        print(f'Rotating to the left node {node}')
+
+        temp_right_node = node.right_node
+        t = temp_right_node.left_node
+
+        temp_right_node.left_node = node
+        node.right_node = t
+
+        if t is None:
+            t.parent = node
+
+        temp_parent = node.parent
+        node.parent = temp_right_node
+        temp_right_node.parent = temp_parent
+
+        if temp_right_node.parent and temp_right_node.parent.left_node == node:
+            temp_right_node.parent.left_node = temp_right_node
+
+        if temp_right_node.parent and temp_right_node.parent.right_node == node:
+            temp_right_node.parent.right_node = temp_right_node
+
+        if node == self.root:
+            self.root = temp_right_node
+
+        node.height = max(self.calc_height(node.left_node),
+                          self.calc_height(node.right_node))
+
+        temp_right_node.height = max(self.calc_height(temp_right_node.left_node),
+                                     self.calc_height(temp_right_node.right_node)) + 1
 
 
 if __name__ == '__main__':
@@ -240,3 +283,4 @@ if __name__ == '__main__':
     # print(avl.height(5))
     # print(avl.height(15))
     print(avl.traverse())
+    avl.remove(5)
