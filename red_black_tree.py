@@ -99,13 +99,56 @@ class RBTree:
         node.left_node = t
 
         """Despues de rotar los nodos hay que 
-        cambiar las referencias a los nodos hijo"""
+        cambiar las referencias de los padres de cada nodo"""
         if t is not None:
             t.parent = node
 
         temp_parent = node.parent
         temp_left_node.parent = temp_parent
         node.parent = temp_left_node
+
+        """Por ultimo, checkear la referencia del nodo padre del nodo
+        rotado (temp_left_node) en caso de que tenga padre"""
+
+        if temp_left_node.parent and temp_left_node.parent.left_node == node:
+            temp_left_node.parent.left_node = temp_left_node
+
+        if temp_left_node.parent and temp_left_node.parent.right_node == node:
+            temp_left_node.parent.right_node = temp_left_node
+
+        if node == self.root:
+            self.root = temp_left_node
+
+    def rotate_left(self, node):
+
+        temp_right_node = node.right_node
+        t = temp_right_node.left_node
+
+        temp_right_node.left_node = node
+        node.right_node = t
+
+        """Despues de rotar los nodos hay que 
+        cambiar las referencias de los padres de cada nodo"""
+        if t is not None:
+            t.parent = node
+
+        temp_parent = node.parent
+        temp_right_node.parent = temp_parent
+        node.parent = temp_right_node
+
+        """Por ultimo, checkear la referencia del nodo padre del nodo
+        rotado (temp_left_node) en caso de que tenga padre"""
+
+        if temp_right_node.parent and temp_right_node.parent.left_node == node:
+            temp_right_node.parent.left_node = temp_right_node
+
+        if temp_right_node.parent and temp_right_node.parent.right_node == node:
+            temp_right_node.parent.right_node = temp_right_node
+
+        if node == self.root:
+            self.root = temp_right_node
+
+
 
 
 
