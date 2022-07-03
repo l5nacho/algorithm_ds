@@ -209,7 +209,7 @@ class AVLTree:
         temp_left_node.right_node = node
         node.left_node = t
 
-        if t is None:
+        if t is not None:
             t.parent = node
 
         temp_parent = node.parent
@@ -240,7 +240,7 @@ class AVLTree:
         temp_right_node.left_node = node
         node.right_node = t
 
-        if t is None:
+        if t is not None:
             t.parent = node
 
         temp_parent = node.parent
@@ -277,6 +277,7 @@ if __name__ == '__main__':
     avl.insert(45)
     avl.insert(11)
     #
+    
     # print(avl.iterate())
     # print(avl.height(10))
     # print(avl.height(-5))

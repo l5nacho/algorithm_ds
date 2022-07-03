@@ -22,6 +22,7 @@ class RBTree:
     def insert(self, data):
         if not self.root:
             self.root = Node(data)
+            self.settle_violation(self.root)
         else:
             self.insert_node(data, self.root)
 
@@ -33,7 +34,7 @@ class RBTree:
 
             else:
                 node.left_node = Node(data, parent=node)
-                # self.settle_violation()
+                self.settle_violation(node.left_node)
 
         if data > node.data:
             if node.right_node:
@@ -41,7 +42,7 @@ class RBTree:
 
             else:
                 node.right_node = Node(data, parent=node)
-                # self.settle_violation()
+                self.settle_violation(node.right_node)
                 
     def traverse(self):
 
@@ -104,8 +105,8 @@ class RBTree:
             t.parent = node
 
         temp_parent = node.parent
-        temp_left_node.parent = temp_parent
         node.parent = temp_left_node
+        temp_left_node.parent = temp_parent
 
         """Por ultimo, checkear la referencia del nodo padre del nodo
         rotado (temp_left_node) en caso de que tenga padre"""
@@ -133,8 +134,8 @@ class RBTree:
             t.parent = node
 
         temp_parent = node.parent
-        temp_right_node.parent = temp_parent
         node.parent = temp_right_node
+        temp_right_node.parent = temp_parent
 
         """Por ultimo, checkear la referencia del nodo padre del nodo
         rotado (temp_left_node) en caso de que tenga padre"""
@@ -148,6 +149,73 @@ class RBTree:
         if node == self.root:
             self.root = temp_right_node
 
+    def settle_violation(self, node):
+
+        while node != self.root and self.is_red(node) and self.is_red(node.parent):
+            parent_node = node.parent
+            grand_parent_node = parent_node.parent
+
+            if parent_node == grand_parent_node.left_node:
+                uncle = grand_parent_node.right_node
+
+                # Casos de uso 1 y 4 -> Colorear nodos
+                if uncle and self.is_red(uncle):
+                    print(f'Coloreando {grand_parent_node} a rojo')
+                    grand_parent_node.color = Color.RED
+                    print(f'Coloreando {parent_node} a negro')
+                    parent_node.color= Color.BLACK
+                    print(f'Coloreando {uncle} a negro')
+                    uncle.color = Color.BLACK
+                    #Asignamos nodo a grand_parent_node para que siga iterando
+                    node = grand_parent_node
+                else:
+                    # Caso de uso 2 -> Nodo uncle es negro y el nodo es right child
+                    if node == parent_node.right_node:
+                        self.rotate_left(parent_node)
+                        node = parent_node
+                        parent_node = node.parent
+
+                    # Caso de uso 3 -> Rotacion del grandparent + parent y grandparent cambian color
+                    print(f'Coloreando {parent_node} a negro')
+                    parent_node.color = Color.BLACK
+                    print(f'Coloreando {grand_parent_node} a rojo')
+                    grand_parent_node.color = Color.RED
+                    self.rotate_right(grand_parent_node)
+
+            else:
+                uncle = grand_parent_node.left_node
+
+                if uncle and self.is_red(uncle):
+                    print(f'Coloreando {grand_parent_node} a rojo')
+                    grand_parent_node.color = Color.RED
+                    print(f'Coloreando {parent_node} a negro')
+                    parent_node.color= Color.BLACK
+                    print(f'Coloreando {uncle} a negro')
+                    uncle.color = Color.BLACK
+                    #Asignamos nodo a grand_parent_node para que siga iterando
+                    node = grand_parent_node
+
+                else:
+                    if node == parent_node.right_node:
+                        self.rotate_right(parent_node)
+                        node = parent_node
+                        parent_node = node.parent
+                    # Caso de uso 3 -> Rotacion del grandparent + parent y grandparent cambian color
+                    print(f'Coloreando {parent_node} a negro')
+                    parent_node.color = Color.BLACK
+                    print(f'Coloreando {grand_parent_node} a rojo')
+                    grand_parent_node.color = Color.RED
+                    self.rotate_left(grand_parent_node)
+
+        if self.root.color == Color.RED:
+            print(f'Coloreando {self.root} (nodo root) a negro')
+            self.root.color = Color.BLACK
+
+    def is_red(self, node):
+        if node is None:
+            return False
+
+        return node.color == Color.RED
 
 
 
@@ -155,15 +223,15 @@ class RBTree:
 if __name__ == '__main__':
     rbtree = RBTree()
 
+    rbtree.insert(32)
     rbtree.insert(10)
-    rbtree.insert(5)
-    rbtree.insert(15)
-    rbtree.insert(20)
-    rbtree.insert(0)
-    rbtree.insert(25)
-    rbtree.insert(18)
-    rbtree.insert(8)
+    rbtree.insert(55)
     rbtree.insert(1)
+    rbtree.insert(19)
+    rbtree.insert(79)
+    rbtree.insert(16)
+    rbtree.insert(23)
+    rbtree.insert(12)
 
 
     print(rbtree.traverse())
