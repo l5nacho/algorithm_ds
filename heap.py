@@ -46,3 +46,28 @@ class Heap:
         if index.size > 0 and self.heap[index] > self.heap[parent_index]:
             self.heap[index], self.heap[parent_index] = self.heap[parent_index], self.heap[index]
             self.fix_heap_up(parent_index)
+
+    def get_max(self):
+        """
+        El valor más alto del heap es siempre el mayor en los max heap
+        """
+        return self.heap[0]
+
+    def poll(self):
+        """
+        Devuelve el maximo (heap[0]) y lo borra -> lo cambia por el menor valor
+        Luego hay que heapify el heap, es decir recorrer el arbol hacia abajo
+        para comprobar que las reglas no se han roto
+        """
+
+        max_item = self.heap[0]
+
+        self.heap[0], self.heap[self.size - 1] = self.heap[size - 1], self.heap[0]
+        self.size -= 1
+
+        # heapify
+        self.heap_fix_down(0)
+
+        # Devolvemos el valor que era el máximo, esto nos sirve para algunas operaciones como
+        # ordenar un array
+        return max_item
