@@ -60,7 +60,7 @@ class Heap:
         para comprobar que las reglas no se han roto
         """
 
-        max_item = self.heap[0]
+        max_item = self.get_max()
 
         self.heap[0], self.heap[self.size - 1] = self.heap[size - 1], self.heap[0]
         self.size -= 1
@@ -71,3 +71,28 @@ class Heap:
         # Devolvemos el valor que era el máximo, esto nos sirve para algunas operaciones como
         # ordenar un array
         return max_item
+
+    def heap_fix_down(self, index):
+
+        left_index = 2 * index + 1
+        right_index = 2 * index + 2
+
+        largest_index = index
+
+        # Miramos si el left_child es mayor que el padre (no sería un heap valido)
+        # si lo es, asignamos largest index a este para cambiarlo
+
+        if left_index < self.size and self.heap[left_index] > self.heap[largest_index]:
+            largest_index = left_index
+
+        # Ahora comparamos el right_child contra el largest_index (puede haberse asignado el
+        # left_index o no) si es mayor asignamos right_index al largest_index
+        if right_index < self.size and self.heap[right_index] > self.heap[largest_index]:
+            largest_index = right_index
+
+        # Comprobamos si el index es igual al largest_index, si no lo es, es que el heap no
+        # era valido y tenemos que modificar las referencias y seguir comprobando recursivamente
+
+        if index != largest_index:
+            self.heap[index], self.heap[largest_index] = self.heap[largest_index], self.heap[index]
+            self.heap_fix_down(largest_index)
