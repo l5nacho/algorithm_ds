@@ -112,6 +112,17 @@ class Heap:
 
         return ' -> '.join(sorted_heap)
 
+    def max_to_min(self):
+
+        largest = 0
+        smallest = -1
+
+        while largest < self.size:
+            self.heap[largest], self.heap[smallest] = self.heap[smallest], self.heap[largest]
+            largest += 1
+            smallest -= 1
+        return self.heap
+
 if __name__ == '__main__':
     heap = Heap()
     heap.insert(13)
@@ -124,3 +135,4 @@ if __name__ == '__main__':
 
     print(heap.heap)
     print(heap.heap_sort())
+    print(heap.max_to_min())
