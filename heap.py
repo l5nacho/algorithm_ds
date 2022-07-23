@@ -23,6 +23,7 @@ class Heap:
 
         # Check heap properties.
         # Se mira el elemento anterior. (size - 1)
+        print(self.size)
 
         self.fix_heap_up(self.size - 1)
 
@@ -42,8 +43,7 @@ class Heap:
         # Revisamos el heap desde el indice hasta el nodo root para ver si se han violado las
         # reglas del heap.
         # Si uno de los elementos es mayor que el padre, se cambian para respetar las reglas.
-
-        if index.size > 0 and self.heap[index] > self.heap[parent_index]:
+        if index > 0 and self.heap[index] > self.heap[parent_index]:
             self.heap[index], self.heap[parent_index] = self.heap[parent_index], self.heap[index]
             self.fix_heap_up(parent_index)
 
@@ -62,7 +62,7 @@ class Heap:
 
         max_item = self.get_max()
 
-        self.heap[0], self.heap[self.size - 1] = self.heap[size - 1], self.heap[0]
+        self.heap[0], self.heap[self.size - 1] = self.heap[self.size - 1], self.heap[0]
         self.size -= 1
 
         # heapify
@@ -73,6 +73,12 @@ class Heap:
         return max_item
 
     def heap_fix_down(self, index):
+
+        """
+        Recursivamente mira el heap hacia abajo y cambia las referencias si
+        el heap no cumpliese las reglas (en el caso de un Maximum Heap) que los hijos
+        siempre sean menores que el padre
+        """
 
         left_index = 2 * index + 1
         right_index = 2 * index + 2
@@ -96,3 +102,25 @@ class Heap:
         if index != largest_index:
             self.heap[index], self.heap[largest_index] = self.heap[largest_index], self.heap[index]
             self.heap_fix_down(largest_index)
+
+    def heap_sort(self):
+        sorted_heap = []
+
+        for _ in range(self.size):
+            max_item = self.poll()
+            sorted_heap.append(str(max_item))
+
+        return ' -> '.join(sorted_heap)
+
+if __name__ == '__main__':
+    heap = Heap()
+    heap.insert(13)
+    heap.insert(-2)
+    heap.insert(0)
+    heap.insert(8)
+    heap.insert(1)
+    heap.insert(-5)
+    heap.insert(99)
+
+    print(heap.heap)
+    print(heap.heap_sort())
