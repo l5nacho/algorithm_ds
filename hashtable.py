@@ -37,6 +37,25 @@ class HashTable:
         self.keys[index] = key
         self.values[index] = value
 
+    def get(self, key):
+        """
+        Busca una key dentro del hashtable, si el valor no coincide pero
+        si el indice, hace linear probing con el siguiente valor
+
+        :param key: string
+        :return:
+        """
+
+        index = self.hash_function(key)
+
+        while self.keys[index] is not None:
+            if self.keys[index] == key:
+                return self.values[index]
+
+            index = (key + 1) % self.capacity
+
+        return None
+
 
     def hash_function(self, key):
         """
