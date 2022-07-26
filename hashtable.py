@@ -10,6 +10,9 @@ class HashTable:
         self.keys = [None] * self.capacity
         self.values = [None] * self.capacity
 
+    def __repr__(self):
+        return '{' + f'{self.keys} : {self.values}' + '}'
+
     def insert(self, key, value):
         """
         Funcion para insertar par key/value, partimos de un indice que se
@@ -74,3 +77,14 @@ class HashTable:
             hash_sum = hash_sum + ord(letter)
 
         return hash_sum % self.capacity
+
+
+if __name__ == '__main__':
+
+    dict = HashTable()
+
+    dict.insert('adam', 4)
+    dict.insert('Nacho', 45.0)
+    # dict.insert('fran', int())
+    print(dict.get('Anna'))
+
