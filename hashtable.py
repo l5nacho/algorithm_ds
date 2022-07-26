@@ -11,9 +11,31 @@ class HashTable:
         self.values = [None] * self.capacity
 
     def insert(self, key, value):
+        """
+        Funcion para insertar par key/value, partimos de un indice que se
+        genera con el hash_function, si ese indice no es None, puede que
+        sea el mismo key (en cuyo caso hacemos un update) o puede que ese
+        slot esté ocupado, en ese caso iteramos hasta que encontremos
+        un valor del indice correcto
+
+        :param key: string
+        :param value: any
+        :return: None
+        """
 
         index = self.hash_function(key)
 
+        while self.keys[index] is not None:
+            # Si la key existe, tenemos que hacer un update del valor.
+            # Es una propiedad de los diccionarios
+            if self.keys[index] == key:
+                self.values[index] = value
+                return None
+
+            index = (key + 1) % self.capacity
+
+        self.keys[index] = key
+        self.values[index] = value
 
 
     def hash_function(self, key):
