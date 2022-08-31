@@ -25,17 +25,22 @@ class Node:
 class DijkstraAlgorithm:
 
     def __init__(self):
+        # Inicializamos como lista pero luego lo convertiremos en un Heap
         self.heap = []
 
     def calculate(self, start_vertex):
 
+        # La distancia desde el vertex en el que empezamos la busqueda es siempre 0
         start_vertex.min_distance = 0
         heapq.heappush(self.heap, start_vertex)
 
+        # Iteramos hasta que el heap está vacio
         while self.heap:
 
             actual_vertex = heapq.heappop(self.heap)
 
+            # Continue vuelve al principio del loop -> así conseguimos no
+            # introducir el mismo valor una y otra vez (porque hacemos heappop)
             if actual_vertex.visited:
                 continue
 
