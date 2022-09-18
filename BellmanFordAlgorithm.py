@@ -7,6 +7,7 @@ class Vertex:
         self.target_vertex = target_vertex
 
 class Node:
+
     def __init__(self, name):
         self.name = name
         self.adjacency_list = []
