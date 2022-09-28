@@ -53,6 +53,27 @@ class DisjointSet:
             current_node.parent = root
             current_node = temp
 
+        return root.node_id
+
+    def merge(self, node1, node2):
+
+        index1 = self.find(node1)
+        index2 = self.find(node2)
+
+        if index1 == index2:
+            return None
+
+        root1 = self.root_nodes[index1]
+        root2 = self.root_nodes[index2]
+
+        if root1.rank > root2.rank:
+            root2.parent = root1
+        elif root1.rank < root2.rank:
+            root1.parent = root2
+        else:
+            root2.parent = root1
+            root1.rank += 1
+
 
 
 
