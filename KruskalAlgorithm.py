@@ -74,12 +74,6 @@ class DisjointSet:
             root2.parent = root1
             root1.rank += 1
 
-
-
-
-
-
-
     def make_sets(self):
 
         for v in self.vertex_list:
@@ -87,3 +81,64 @@ class DisjointSet:
             v.node = node
             self.root_nodes.append(node)
 
+class KruskalAlgorithm:
+
+    def __init__(self, vertex_list, edge_list):
+
+        self.vertex_list = vertex_list
+        self.edge_list = edge_list
+
+    def find_shortest_path(self):
+
+        disjoint_set = DisjointSet(self.vertex_list)
+        mst = []
+
+        # Hay que ordenar los edges
+        self.edge_list.sort()
+
+        for edge in self.edge_list:
+
+            u = edge.start_vertex
+            v = edge.target_vertex
+
+            # Comprobar si los nodos asociados con los vertex u y v están en el mismo
+            # disjoint set (si comparten root)
+            if disjoint_set.find(u.node) is not disjoint_set.find(v.node):
+                mst.append(edge)
+                # mergeamos los sets
+                disjoint_set.merge(u.node, v.node)
+
+        for edge in mst:
+            print(edge.start_vertex.name, " - ", edge.target_vertex.name, " - ", edge.weight)
+
+if __name__ == '__main__':
+
+    # vertices in the G(V,E)
+    vertex1 = Vertex("A")
+    vertex2 = Vertex("B")
+    vertex3 = Vertex("C")
+    vertex4 = Vertex("D")
+    vertex5 = Vertex("E")
+    vertex6 = Vertex("F")
+    vertex7 = Vertex("G")
+
+    # edges
+    edge1 = Edge(2, vertex1, vertex2)
+    edge2 = Edge(6, vertex1, vertex3)
+    edge3 = Edge(5, vertex1, vertex5)
+    edge4 = Edge(10, vertex1, vertex6)
+    edge5 = Edge(3, vertex2, vertex4)
+    edge6 = Edge(3, vertex2, vertex5)
+    edge7 = Edge(1, vertex3, vertex4)
+    edge8 = Edge(2, vertex3, vertex6)
+    edge9 = Edge(4, vertex4, vertex5)
+    edge10 = Edge(5, vertex4, vertex7)
+    edge11 = Edge(5, vertex6, vertex7)
+
+    # have to create a list out of these edges and vertices
+    vertices = [vertex1, vertex2, vertex3, vertex4, vertex5, vertex6, vertex7]
+    edges = [edge1, edge2, edge3, edge4, edge5, edge6, edge7, edge8, edge9, edge10, edge11]
+
+    # let's run the algorithm
+    algorithm = KruskalAlgorithm(vertices, edges)
+    algorithm.find_shortest_path()
