@@ -18,7 +18,7 @@ class Edge:
         return self.weight < other_edge.weight
 
 class Node:
-
+    # Nodos en la representacion del arbol
     def __init__(self, rank, node_id, parent):
 
         self.rank = rank
